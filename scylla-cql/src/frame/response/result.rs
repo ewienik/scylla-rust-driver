@@ -1431,8 +1431,9 @@ fn deser_prepared(buf: &mut &[u8]) -> StdResult<Prepared, PreparedParseError> {
     buf.advance(id_len);
     let prepared_metadata =
         deser_prepared_metadata(buf).map_err(PreparedParseError::PreparedMetadataParseError)?;
-    let (result_metadata, paging_state_response) =
+    let (result_metadata, _paging_state_response) =
         deser_result_metadata(buf).map_err(PreparedParseError::ResultMetadataParseError)?;
+    /*
     if let PagingStateResponse::HasMorePages { state } = paging_state_response {
         return Err(PreparedParseError::NonZeroPagingState(
             state
@@ -1441,6 +1442,7 @@ fn deser_prepared(buf: &mut &[u8]) -> StdResult<Prepared, PreparedParseError> {
                 .unwrap_or_else(|| Arc::from([])),
         ));
     }
+    */
 
     Ok(Prepared {
         id,
